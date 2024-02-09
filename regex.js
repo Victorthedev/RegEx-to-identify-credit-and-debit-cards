@@ -1,35 +1,21 @@
-function validate (cardNumber) {
-    cardNumber = cardNumber.replace (/[\s-]/g, '');
+function validateCard(cardNumber) {
+    // Remove spaces and dashes
+    cardNumber = cardNumber.replace(/[\s-]/g, '');
 
-    if (!/^4\d{3} | 5[1-5]\d{2} | 6(?:011 | 5[0-9]{2})\d{12}$/.test(cardNumber)) {
-        return false;
+    // Validate card types
+    if (/^4[0-9]{15}/.test(cardNumber)) {
+        return 'Visa card';
+    } else if (/^5[1-5][0-9]{14}/.test(cardNumber)) {
+        return 'MasterCard';
+    } else if (/^3[47][0-9]{13}/.test(cardNumber)) {
+        return 'American Express card';
+    } else {
+        return 'Unknown card';
     }
-
-    let sum = 0;
-    let double = flase;
-
-    for (let i = cardNumber.length - 1; i >= 0; i--) {
-        let digit = parseInt(cardNumber.charAt(i));
-
-        if (double) {
-            if ((digit *= 2) > 9) digit -= 9;
-        }
-        sum += digit;
-        double = !double;
-    }
-    return sum % 10 === 0;
 }
 
-function cardType(cardNumber) {
-    if (/^4/.test(cardNumber))
-    return 'Visa';
+// Example usage:
+const cardNumber = '5257 3829 3847 4396';
+console.log(validateCard(cardNumber));
 
-    if (/^5[1-5]/.test(cardNumber))
-    return 'Mastercard';
-
-    else return 'Others';
-}
-
-const cardNumber = '4119475893068493';
-console.log(validate(cardNumber));
-console.log(cardType(cardNumber));
+//Change the cardNumber variable as needed
